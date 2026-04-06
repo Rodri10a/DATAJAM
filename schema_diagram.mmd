@@ -1,0 +1,71 @@
+erDiagram
+    COUNTRIES {
+        CHAR(2) code PK
+        VARCHAR name
+        VARCHAR region
+        INT population
+    }
+
+    CATEGORIES {
+        INT id PK
+        VARCHAR slug UK
+        VARCHAR name
+    }
+
+    USERS {
+        INT id PK
+        VARCHAR name
+        VARCHAR email UK
+        CHAR(2) country_code FK
+        DATE created_at
+    }
+
+    PRODUCTS {
+        INT id PK
+        VARCHAR name
+        DECIMAL price
+        INT category_id FK
+    }
+
+    PRODUCT_DETAILS {
+        INT product_id PK_FK
+        INT stock
+        DECIMAL rating
+        DECIMAL weight
+    }
+
+    ORDERS {
+        INT id PK
+        INT user_id FK
+        DATE order_date
+        DECIMAL total_amount
+    }
+
+    ORDER_ITEMS {
+        INT id PK
+        INT order_id FK
+        INT product_id FK
+        INT quantity
+        DECIMAL unit_price
+    }
+
+    SHIPPING_REGIONS {
+        CHAR(2) country_code PK_FK
+        VARCHAR region
+        VARCHAR shipping_zone
+        INT estimated_days
+    }
+
+    CURRENCY_RATES {
+        CHAR(3) currency_code PK
+        DECIMAL rate_to_usd
+        DATETIME updated_at
+    }
+
+    COUNTRIES ||--o{ USERS : "has"
+    COUNTRIES ||--o| SHIPPING_REGIONS : "has"
+    CATEGORIES ||--o{ PRODUCTS : "contains"
+    PRODUCTS ||--o| PRODUCT_DETAILS : "has"
+    USERS ||--o{ ORDERS : "places"
+    ORDERS ||--o{ ORDER_ITEMS : "contains"
+    PRODUCTS ||--o{ ORDER_ITEMS : "sold in" 
