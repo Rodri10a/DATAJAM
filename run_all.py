@@ -13,20 +13,20 @@ Uso: pip install mysql-connector-python requests && python run_all.py
 import csv, os, sys, requests, mysql.connector
 
 # Credenciales de conexion a MySQL (el container de Docker)
-DB = {"host": "localhost", "port": 3306, "user": "root", "password": "root"}
+MYSQL_CONNECTION = {"host": "localhost", "port": 3306, "user": "root", "password": "root"}
 
 # Nombre de la base de datos que vamos a crear
-DB_NAME = "datajam"
+DATABASE_NAME = "datajam"
 
 # Ruta a la carpeta donde estan los archivos CSV
-DATA_DIR = os.path.join(os.path.dirname(__file__), "dataset_group_product_details")
+DATASET_DIRECTORY = os.path.join(os.path.dirname(__file__), "dataset_group_product_details")
 
 # URL base de la API de DummyJSON (de donde sacamos stock, rating y weight)
-API_URL = "https://dummyjson.com/products"
+DUMMYJSON_API_URL = "https://dummyjson.com/products"
 
 # Mapa de tablas: cada tupla dice (nombre_tabla, archivo_csv, columnas)
 # Esto le dice al Phase 2 que CSV va a cada tabla y con que columnas
-TABLES_CSV = [
+TABLE_CSV_MAPPING = [
     ("countries",        "countries.csv",        ["code", "name", "region", "population"]),
     ("categories",       "categories.csv",       ["id", "slug", "name"]),
     ("users",            "users.csv",            ["id", "name", "email", "country_code", "created_at"]),
@@ -44,64 +44,64 @@ def run():
     # sql/01_schema.sql y ejecuta cada CREATE TABLE
     # ==========================================================
     print("\n[Phase 1] Creating database and schema...")
-    conn = mysql.connector.connect(**DB)     # Conecta a MySQL sin seleccionar DB
-    cur = conn.cursor()
-    cur.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")  # Crea la DB si no existe
-    cur.execute(f"USE {DB_NAME}")                            # Selecciona la DB
+    connection = mysql.connector.connect(**MYSQL_CONNECTION)     # Conecta a MySQL sin seleccionar DB
+    cursor = connection.cursor()
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DATABASE_NAME}")  # Crea la DB si no existe
+    cursor.execute(f"USE {DATABASE_NAME}")                            # Selecciona la DB
 
     # Lee el archivo SQL con los CREATE TABLE
-    sql_path = os.path.join(os.path.dirname(__file__), "sql", "01_schema.sql")
-    with open(sql_path, "r", encoding="utf-8") as f:
-        sql = f.read()
+    schema_path = os.path.join(os.path.dirname(__file__), "sql", "01_schema.sql")
+    with open(schema_path, "r", encoding="utf-8") as schema_file:
+        schema_sql = schema_file.read()
 
     # Elimina lineas de comentarios (--) para que no interfieran
-    clean = "\n".join(l for l in sql.splitlines() if not l.strip().startswith("--"))
+    clean_sql = "\n".join(line for line in schema_sql.splitlines() if not line.strip().startswith("--"))
 
     # Separa cada sentencia SQL por el ; y la ejecuta una por una
-    for stmt in clean.split(";"):
-        stmt = stmt.strip()
-        if stmt:
+    for statement in clean_sql.split(";"):
+        statement = statement.strip()
+        if statement:
             try:
-                cur.execute(stmt)
+                cursor.execute(statement)
             except mysql.connector.Error:
                 pass  # Si la tabla ya existe, no falla
-    conn.commit()
-    cur.close()
-    conn.close()
+    connection.commit()
+    cursor.close()
+    connection.close()
     print("  [OK] Schema created")
 
     # ==========================================================
     # PHASE 2: Cargar los datos de los CSVs en MySQL
     # Primero vacia todas las tablas (TRUNCATE) para poder
     # re-ejecutar sin errores de duplicados.
-    # Luego recorre el mapa TABLES_CSV y carga cada archivo.
+    # Luego recorre el mapa TABLE_CSV_MAPPING y carga cada archivo.
     # ==========================================================
     print("\n[Phase 2] Loading CSVs...")
-    conn = mysql.connector.connect(**DB, database=DB_NAME)
-    cur = conn.cursor()
+    connection = mysql.connector.connect(**MYSQL_CONNECTION, database=DATABASE_NAME)
+    cursor = connection.cursor()
 
     # Desactiva validacion de Foreign Keys para poder cargar en cualquier orden
-    cur.execute("SET FOREIGN_KEY_CHECKS = 0")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 
     # Vacia todas las tablas antes de cargar (permite re-ejecutar el script)
-    all_tables = ["order_items","orders","product_details","products","shipping_regions","users","categories","countries"]
-    for t in all_tables:
-        cur.execute(f"TRUNCATE TABLE {t}")
+    tables_to_truncate = ["order_items","orders","product_details","products","shipping_regions","users","categories","countries"]
+    for table_name in tables_to_truncate:
+        cursor.execute(f"TRUNCATE TABLE {table_name}")
 
     # Recorre cada tabla del mapa y carga su CSV correspondiente
-    for table, filename, cols in TABLES_CSV:
+    for table_name, csv_filename, columns in TABLE_CSV_MAPPING:
         # Lee el CSV y convierte cada fila en una tupla con las columnas necesarias
-        with open(os.path.join(DATA_DIR, filename), "r", encoding="utf-8") as f:
-            rows = [tuple(r[c] for c in cols) for r in csv.DictReader(f)]
+        with open(os.path.join(DATASET_DIRECTORY, csv_filename), "r", encoding="utf-8") as csv_file:
+            rows = [tuple(row[col] for col in columns) for row in csv.DictReader(csv_file)]
 
         # Arma el INSERT con placeholders (%s) y ejecuta todas las filas de golpe
-        placeholders = ",".join(["%s"] * len(cols))
-        cur.executemany(f"INSERT INTO {table} ({','.join(cols)}) VALUES ({placeholders})", rows)
-        print(f"  [OK] {table}: {len(rows)} rows")
+        placeholders = ",".join(["%s"] * len(columns))
+        cursor.executemany(f"INSERT INTO {table_name} ({','.join(columns)}) VALUES ({placeholders})", rows)
+        print(f"  [OK] {table_name}: {len(rows)} rows")
 
     # Reactiva la validacion de Foreign Keys
-    cur.execute("SET FOREIGN_KEY_CHECKS = 1")
-    conn.commit()
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+    connection.commit()
 
     # ==========================================================
     # PHASE 3: Consumir la API de DummyJSON para llenar product_details
@@ -112,30 +112,30 @@ def run():
     print("\n[Phase 3] Fetching product_details from DummyJSON...")
 
     # Paginacion: traemos de a 30 productos hasta cubrir el total
-    products, skip = [], 0
+    api_products, skip_count = [], 0
     while True:
         # Pedimos solo los campos que necesitamos: id, stock, rating, weight
-        data = requests.get(f"{API_URL}?limit=30&skip={skip}&select=id,stock,rating,weight", timeout=30).json()
-        products.extend(data["products"])  # Agregamos los productos al array
-        skip += 30                         # Avanzamos a la siguiente pagina
-        if skip >= data["total"]:          # Si ya trajimos todos, paramos
+        response = requests.get(f"{DUMMYJSON_API_URL}?limit=30&skip={skip_count}&select=id,stock,rating,weight", timeout=30).json()
+        api_products.extend(response["products"])  # Agregamos los productos al array
+        skip_count += 30                            # Avanzamos a la siguiente pagina
+        if skip_count >= response["total"]:         # Si ya trajimos todos, paramos
             break
-    print(f"  [OK] {len(products)} products fetched from API")
+    print(f"  [OK] {len(api_products)} products fetched from API")
 
     # Traemos los IDs de productos que existen en nuestra DB
-    cur.execute("SELECT id FROM products")
-    local_ids = {r[0] for r in cur.fetchall()}  # Set de IDs locales: {1, 2, 3, ..., 194}
+    cursor.execute("SELECT id FROM products")
+    local_product_ids = {row[0] for row in cursor.fetchall()}  # Set de IDs locales: {1, 2, 3, ..., 194}
 
     # SQL con ON DUPLICATE KEY UPDATE: si ya existe, actualiza en vez de fallar
-    sql = """INSERT INTO product_details (product_id, stock, rating, weight)
+    upsert_sql = """INSERT INTO product_details (product_id, stock, rating, weight)
              VALUES (%s,%s,%s,%s)
              ON DUPLICATE KEY UPDATE stock=VALUES(stock), rating=VALUES(rating), weight=VALUES(weight)"""
 
     # Solo insertamos productos que existen en NUESTRO catalogo
-    for p in products:
-        if p["id"] in local_ids:
-            cur.execute(sql, (p["id"], p.get("stock", 0), p.get("rating", 0), p.get("weight", 0)))
-    conn.commit()
+    for product in api_products:
+        if product["id"] in local_product_ids:
+            cursor.execute(upsert_sql, (product["id"], product.get("stock", 0), product.get("rating", 0), product.get("weight", 0)))
+    connection.commit()
     print(f"  [OK] product_details populated")
 
     # ==========================================================
@@ -143,13 +143,13 @@ def run():
     # Si alguna dice [EMPTY] es que algo fallo
     # ==========================================================
     print("\n[Verification]")
-    for t in ["countries","categories","users","products","product_details","orders","order_items","shipping_regions"]:
-        cur.execute(f"SELECT COUNT(*) FROM {t}")
-        n = cur.fetchone()[0]
-        print(f"  {'[OK]' if n > 0 else '[EMPTY]'} {t}: {n} rows")
+    for table_name in ["countries","categories","users","products","product_details","orders","order_items","shipping_regions"]:
+        cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+        row_count = cursor.fetchone()[0]
+        print(f"  {'[OK]' if row_count > 0 else '[EMPTY]'} {table_name}: {row_count} rows")
 
-    cur.close()
-    conn.close()
+    cursor.close()
+    connection.close()
     print("\nALL DONE - System 100% operational.\n")
 
 

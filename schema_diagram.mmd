@@ -28,7 +28,7 @@ erDiagram
     }
 
     PRODUCT_DETAILS {
-        INT product_id PK_FK
+        INT product_id FK
         INT stock
         DECIMAL rating
         DECIMAL weight
@@ -50,16 +50,10 @@ erDiagram
     }
 
     SHIPPING_REGIONS {
-        CHAR(2) country_code PK_FK
+        CHAR(2) country_code FK
         VARCHAR region
         VARCHAR shipping_zone
         INT estimated_days
-    }
-
-    CURRENCY_RATES {
-        CHAR(3) currency_code PK
-        DECIMAL rate_to_usd
-        DATETIME updated_at
     }
 
     COUNTRIES ||--o{ USERS : "has"
@@ -68,4 +62,4 @@ erDiagram
     PRODUCTS ||--o| PRODUCT_DETAILS : "has"
     USERS ||--o{ ORDERS : "places"
     ORDERS ||--o{ ORDER_ITEMS : "contains"
-    PRODUCTS ||--o{ ORDER_ITEMS : "sold in" 
+    PRODUCTS ||--o{ ORDER_ITEMS : "sold in"
