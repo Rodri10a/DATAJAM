@@ -52,6 +52,11 @@ def run():
     cur = conn.cursor()
     cur.execute("SET FOREIGN_KEY_CHECKS = 0")
 
+    # Clean tables before re-loading (safe for re-runs)
+    all_tables = ["order_items","orders","product_details","products","shipping_regions","users","categories","countries"]
+    for t in all_tables:
+        cur.execute(f"TRUNCATE TABLE {t}")
+
     for table, filename, cols in TABLES_CSV:
         with open(os.path.join(DATA_DIR, filename), "r", encoding="utf-8") as f:
             rows = [tuple(r[c] for c in cols) for r in csv.DictReader(f)]
