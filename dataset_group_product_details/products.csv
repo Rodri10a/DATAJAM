@@ -1,0 +1,195 @@
+id,name,price,category_id
+1,Essence Mascara Lash Princess,11.0,1
+2,Eyeshadow Palette with Mirror,19.3,1
+3,Powder Canister,15.3,1
+4,Red Lipstick,13.11,1
+5,Red Nail Polish,10.09,1
+6,Calvin Klein CK One,55.43,2
+7,Chanel Coco Noir Eau De,150.3,2
+8,Dior J'adore,88.11,2
+9,Dolce Shine Eau de,73.69,2
+10,Gucci Bloom Eau de,77.31,2
+11,Annibale Colombo Bed,1915.38,3
+12,Annibale Colombo Sofa,2677.93,3
+13,Bedside Table African Cherry,289.74,3
+14,Knoll Saarinen Executive Conference Chair,501.86,3
+15,Wooden Bathroom Sink With Mirror,882.37,3
+16,Apple,2.99,4
+17,Beef Steak,13.1,4
+18,Cat Food,9.8,4
+19,Chicken Meat,11.37,4
+20,Cooking Oil,4.8,4
+21,Cucumber,2.99,4
+22,Dog Food,12.24,4
+23,Eggs,3.09,4
+24,Fish Steak,14.9,4
+25,Green Bell Pepper,2.99,4
+26,Green Chili Pepper,2.99,4
+27,Honey Jar,6.85,4
+28,Ice Cream,5.39,4
+29,Juice,4.57,4
+30,Kiwi,2.99,4
+31,Lemon,2.99,4
+32,Milk,3.91,4
+33,Mulberry,5.38,4
+34,Nescafe Coffee,9.38,4
+35,Potatoes,2.99,4
+36,Protein Powder,21.62,4
+37,Red Onions,2.99,4
+38,Rice,6.57,4
+39,Soft Drinks,2.99,4
+40,Strawberry,4.34,4
+41,Tissue Paper Box,2.99,4
+42,Water,2.99,4
+43,Decoration Swing,60.6,5
+44,Family Tree Photo Frame,30.7,5
+45,House Showpiece Plant,39.09,5
+46,Plant Pot,15.16,5
+47,Table Lamp,49.1,5
+48,Bamboo Spatula,8.16,6
+49,Black Aluminium Cup,6.59,6
+50,Black Whisk,10.39,6
+51,Boxed Blender,41.65,6
+52,Carbon Steel Wok,30.17,6
+53,Chopping Board,13.23,6
+54,Citrus Squeezer Yellow,10.48,6
+55,Egg Slicer,7.71,6
+56,Electric Stove,54.69,6
+57,Fine Mesh Strainer,9.97,6
+58,Fork,4.47,6
+59,Glass,4.97,6
+60,Grater Black,11.47,6
+61,Hand Blender,41.21,6
+62,Ice Cube Tray,6.59,6
+63,Kitchen Sieve,8.65,6
+64,Knife,16.65,6
+65,Lunch Box,14.88,6
+66,Microwave Oven,101.75,6
+67,Mug Tree Stand,16.16,6
+68,Pan,24.17,6
+69,Plate,4.11,6
+70,Red Tongs,7.12,6
+71,Silver Pot With Glass Cap,40.25,6
+72,Slotted Turner,10.5,6
+73,Spice Rack,23.04,6
+74,Spoon,5.14,6
+75,Tray,18.76,6
+76,Wooden Rolling Pin,12.55,6
+77,Yellow Peeler,6.96,6
+78,Apple MacBook Pro 14 Inch Space Grey,2121.88,7
+79,Asus Zenbook Pro Dual Screen Laptop,1832.88,7
+80,Huawei Matebook X Pro,1419.95,7
+81,Lenovo Yoga 920,1191.84,7
+82,New DELL XPS 13 9300 Laptop,1526.69,7
+83,Blue & Black Check Shirt,32.65,8
+84,Gigabyte Aorus Men Tshirt,28.93,8
+85,Man Plaid Shirt,36.66,8
+86,Man Short Sleeve Shirt,20.15,8
+87,Men Check Shirt,33.01,8
+88,Nike Air Jordan 1 Red And Black,160.8,9
+89,Nike Baseball Cleats,78.39,9
+90,Puma Future Rider Trainers,87.32,9
+91,Sports Sneakers Off White & Red,118.08,9
+92,Sports Sneakers Off White Red,120.77,9
+93,Brown Leather Belt Watch,102.07,10
+94,Longines Master Collection,1579.3,10
+95,Rolex Cellini Date Black Dial,8765.78,10
+96,Rolex Cellini Moonphase,13571.42,10
+97,Rolex Datejust,12970.6,10
+98,Rolex Submariner Watch,15069.66,10
+99,Amazon Echo Plus,117.35,11
+100,Apple Airpods,149.41,11
+101,Apple AirPods Max Silver,529.38,11
+102,Apple Airpower Wireless Charger,89.47,11
+103,Apple HomePod Mini Cosmic Grey,110.99,11
+104,Apple iPhone Charger,21.55,11
+105,Apple MagSafe Battery Pack,101.86,11
+106,Apple Watch Series 4 Gold,385.34,11
+107,Beats Flex Wireless Earphones,49.22,11
+108,iPhone 12 Silicone Case with MagSafe Plum,31.66,11
+109,Monopod,21.19,11
+110,Selfie Lamp with iPhone,17.54,11
+111,Selfie Stick Monopod,14.97,11
+112,TV Studio Camera Pedestal,508.96,11
+113,Generic Motorcycle,4280.51,12
+114,Kawasaki Z800,8993.72,12
+115,MotoGP CI.H1,17411.66,12
+116,Scooter Motorcycle,3454.53,12
+117,Sportbike Motorcycle,7692.42,12
+118,Attitude Super Leaves Hand Soap,9.89,13
+119,Olay Ultra Moisture Shea Butter Body Wash,14.21,13
+120,Vaseline Men Body and Face Lotion,9.93,13
+121,iPhone 5s,225.54,14
+122,iPhone 6,323.59,14
+123,iPhone 13 Pro,1244.42,14
+124,iPhone X,969.0,14
+125,Oppo A57,240.02,14
+126,Oppo F19 Pro Plus,412.52,14
+127,Oppo K1,289.28,14
+128,Realme C35,174.65,14
+129,Realme X,345.98,14
+130,Realme XT,400.03,14
+131,Samsung Galaxy S7,308.29,14
+132,Samsung Galaxy S8,486.36,14
+133,Samsung Galaxy S10,807.2,14
+134,Vivo S1,292.07,14
+135,Vivo V9,293.64,14
+136,Vivo X21,533.45,14
+137,American Football,19.49,15
+138,Baseball Ball,10.13,15
+139,Baseball Glove,28.2,15
+140,Basketball,14.81,15
+141,Basketball Rim,42.57,15
+142,Cricket Ball,14.04,15
+143,Cricket Bat,30.54,15
+144,Cricket Helmet,51.83,15
+145,Cricket Wicket,31.58,15
+146,Feather Shuttlecock,6.03,15
+147,Football,19.4,15
+148,Golf Ball,11.19,15
+149,Iron Golf,50.2,15
+150,Metal Baseball Bat,30.85,15
+151,Tennis Ball,8.24,15
+152,Tennis Racket,55.14,15
+153,Volleyball,12.67,15
+154,Black Sun Glasses,32.21,16
+155,Classic Sun Glasses,24.66,16
+156,Green and Black Glasses,35.32,16
+157,Party Glasses,20.68,16
+158,Sunglasses,25.05,16
+159,iPad Mini 2021 Starlight,505.3,17
+160,Samsung Galaxy Tab S8 Plus Grey,605.06,17
+161,Samsung Galaxy Tab White,341.46,17
+162,Blue Frock,32.95,18
+163,Girl Summer Dress,20.2,18
+164,Gray Dress,40.56,18
+165,Short Frock,28.72,18
+166,Tartan Dress,39.01,18
+167,300 Touring,29358.46,19
+168,Charger SXT RWD,36536.77,19
+169,Dodge Hornet GT Plus,25178.29,19
+170,Durango SXT RWD,36597.01,19
+171,Pacifica Touring,37306.01,19
+172,Blue Women's Handbag,54.27,20
+173,Heshe Women's Leather Bag,138.31,20
+174,Prada Women Bag,679.56,20
+175,White Faux Leather Backpack,45.49,20
+176,Women Handbag Black,60.1,20
+177,Black Women's Gown,127.56,21
+178,Corset Leather With Skirt,94.92,21
+179,Corset With Black Skirt,84.24,21
+180,Dress Pea,53.13,21
+181,Marni Red & Black Suit,201.66,21
+182,Green Crystal Earring,33.23,22
+183,Green Oval Earring,29.4,22
+184,Tropical Earring,19.62,22
+185,Black & Brown Slipper,20.96,23
+186,Calvin Klein Heel Shoes,82.76,23
+187,Golden Shoes Woman,57.47,23
+188,Pampi Shoes,30.43,23
+189,Red Shoes,35.05,23
+190,IWC Ingenieur Automatic Steel,5293.46,24
+191,Rolex Cellini Moonphase,16845.01,24
+192,Rolex Datejust Women,11234.07,24
+193,Watch Gold for Women,811.96,24
+194,Women's Wrist Watch,151.19,24
